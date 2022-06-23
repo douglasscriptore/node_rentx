@@ -12,6 +12,7 @@ class CarsRepository implements ICarsRepository {
   constructor() {
     this.repository = AppDataSource.getRepository(Car);
   }
+
   public async findById(car_id: string): Promise<Car> {
     const car = await this.repository.findOne({ where: { id: car_id } });
     return car;
@@ -71,6 +72,16 @@ class CarsRepository implements ICarsRepository {
   public async findByLicensePlate(license_plate: string): Promise<Car> {
     const car = await this.repository.findOne({ where: { license_plate } });
     return car;
+  }
+
+  public async updateAvailable(id: string, available: boolean): Promise<void> {
+    await this.repository
+      .createQueryBuilder()
+      .update()
+      .set({ available })
+      .where("id = :id")
+      .setParameters({ id })
+      .execute();
   }
 }
 

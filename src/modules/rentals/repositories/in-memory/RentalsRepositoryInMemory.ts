@@ -6,6 +6,11 @@ import { IRentalsRepository } from "../IRentalsRepository";
 class RentalsRepositoryInMemory implements IRentalsRepository {
   private rentals: Rental[] = [];
 
+  public async findById(id: string): Promise<Rental> {
+    const rental = this.rentals.find((rent) => rent.id === id);
+    return rental;
+  }
+
   public async create({
     car_id,
     user_id,
